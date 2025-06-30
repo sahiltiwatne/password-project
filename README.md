@@ -4,15 +4,6 @@ An interactive and responsive web-based application built using **Flask (Python)
 
 ---
 
-## 🚀 Live Preview (Optional)
-
-👉 You can host it using [Render](https://render.com/), [Railway](https://railway.app/), or [Replit](https://replit.com/) and place the link here:
-
-🔗 https://your-app-url.onrender.com/
-
-
----
-
 ## 💡 Features
 
 - ✅ Real-time password strength analysis

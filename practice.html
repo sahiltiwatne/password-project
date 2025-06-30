@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            overflow-x: hidden;
+        }
+        .background {
+            width: 100%;
+            height: 30vh; 
+            background: url('background.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(235, 235, 235, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;        
+        }
+        .navbar .brand {
+            color: rgb(22, 22, 22);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-right: 25px;
+        }
+        .navbar .nav-items a {
+            color: rgb(32, 32, 32);
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+            margin: 40px auto;
+        }
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .input-container span {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+        }
+        .strength-container {
+            height: 10px;
+            width: 100%;
+            background: #ddd;
+            margin-top: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background: red;
+            transition: width 0.3s ease-in-out;
+        }
+        #strengthText {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Password Strength Checker</div>
+        <div class="nav-items">
+            <a href="#">About</a>
+        </div>
+    </div>
+    <div class="background">Your safety is our priority</div>
+    <div class="container">
+        <h2>Password Strength Analyzer</h2>
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Enter your password">
+            <span id="togglePassword"><i class="fas fa-eye"></i></span>
+        </div>
+        <div class="strength-container">
+            <div class="strength-bar" id="strengthBar"></div>
+        </div>
+        <p id="strengthText">Enter a password to check its strength.</p>
+        <button id="generatePassword" class="btn">Suggest Strong Password</button>
+        <p id="suggestedPassword"></p>
+    </div>
+</body>
+</html>

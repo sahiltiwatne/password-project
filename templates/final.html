@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">Password Strength Analyzer</div>
+        <div class="nav-right">
+            <a href="#about">About Us</a>
+        </div>
+    </nav>
+    
+    <div class="content">
+        
+        <h1>Welcome to Password Strength Analyzer</h1>
+        <br>
+        <p>Start analyzing your password strength here...</p>
+        <br>
+        <a href="#analyze-section" class="btn1">Start Analyzing ↗</a>
+        <br><br><br>
+        <div class="passwordtips">
+            <h2>How to Create a Strong Password?</h2>
+            <p>1️⃣ Use at least 12-16 characters – Longer passwords are harder to crack.
+                <br>2️⃣ Mix uppercase & lowercase letters – Avoid simple patterns.
+                ,<br>3️⃣ Include numbers & special symbols – Strengthens security.
+                <br>4️⃣ Avoid common words & phrases – Use unique combinations.
+                <br>5️⃣ Don’t use personal information – Birthdates & names are easy to guess.
+                <br>6️⃣ Use a passphrase – Combine random words for better security.
+                <br>7️⃣ Never reuse passwords – A breach on one site could compromise all accounts.
+                <br>8️⃣ Use a password manager – Securely store complex passwords.
+                <br>9️⃣ Enable Two-Factor Authentication (2FA) – Adds extra protection.
+                <br>🔟 Change passwords periodically – Especially for banking & emails.
+            </p>
+        
+        </div>
+        <br><br><br><br>
+        <div id="analyze-section">
+            
+            <div class="container">
+                <h2>Password Strength Analyzer</h2>
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <span id="togglePassword"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="strength-container">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <p id="strengthText"></p>
+                <ul id="passwordTips">
+                    <li id="tip-length"><i class="fas fa-check-circle"></i> At least 8 characters</li>
+                    <li id="tip-uppercase"><i class="fas fa-check-circle"></i> Include uppercase letters</li>
+                    <li id="tip-number"><i class="fas fa-check-circle"></i> Include numbers</li>
+                    <li id="tip-special"><i class="fas fa-check-circle"></i> Include special characters</li>
+                </ul>
+                <button id="generatePassword" class="btn">Suggest Strong Password</button>
+                <p id="suggestedPassword"></p>
+                <button id="toggleTheme" class="btn theme-btn">Toggle Dark Mode</button>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <div id="about">
+            <h2>About Us</h2>
+            <p>Welcome to Password Strength Analyzer, your go-to tool for ensuring online security. Our mission is to help users create strong, unbreakable passwords to protect their personal and financial information from cyber threats. With increasing online risks, we provide an easy-to-use solution to analyze password strength and offer security tips. Our goal is to enhance digital safety by promoting better password practices. Stay secure, stay protected! 🔒🚀</p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+
+    fetch('/check-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        // Update strength bar width
+        const strengthPercentage = data.strength * 25;
+        strengthBar.style.width = strengthPercentage + '%';
+
+        // Remove existing strength classes
+        strengthBar.classList.remove('very-weak', 'weak', 'moderate', 'strong', 'very-strong');
+
+        // Add the correct class based on strength
+        if (data.strength === 0) {
+            strengthBar.classList.add('very-weak');
+            strengthText.innerText = 'Very Weak';
+        } else if (data.strength === 1) {
+            strengthBar.classList.add('weak');
+            strengthText.innerText = 'Weak';
+        } else if (data.strength === 2) {
+            strengthBar.classList.add('moderate');
+            strengthText.innerText = 'Moderate';
+        } else if (data.strength === 3) {
+            strengthBar.classList.add('strong');
+            strengthText.innerText = 'Strong';
+        } else if (data.strength === 4) {
+            strengthBar.classList.add('very-strong');
+            strengthText.innerText = 'Very Strong';
+        }
+
+        // ✅ Update the tips section (Make them green when condition is met)
+        document.getElementById('tip-length').style.color = data.tips.length ? 'green' : 'red';
+        document.getElementById('tip-uppercase').style.color = data.tips.uppercase ? 'green' : 'red';
+        document.getElementById('tip-number').style.color = data.tips.number ? 'green' : 'red';
+        document.getElementById('tip-special').style.color = data.tips.special ? 'green' : 'red';
+    });
+});
+document.getElementById('generatePassword').addEventListener('click', function() {
+    fetch('/generate-password')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('suggestedPassword').textContent = data.password;
+        document.getElementById('password').value = data.password;
+        document.getElementById('password').dispatchEvent(new Event('input')); // Trigger strength check
+    });
+});
+
+        document.getElementById('toggleTheme').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');  
+        });
+
+        </script>
+        
+</body>
+</html>
